@@ -1,5 +1,6 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TaskServices } from './services/task.service';
 
 interface Task {
   id: number;
@@ -15,10 +16,12 @@ interface Task {
 })
 export class App {
   protected readonly pageTitle = signal('todo');
+  tasksService = inject(TaskServices);
+
   taskTitle = signal('');
   tasksDone = computed(() => this.tasks().filter((t) => t.done === true));
 
-  tasks = signal<Task[]>(this.getTarefas());
+  tasks = signal<Task[]>(this.tasksService.loadTasks());
 
   addTask() {
     const title = this.taskTitle().trim();
@@ -47,14 +50,5 @@ export class App {
   }
   removeTask(taskId: number) {
     this.tasks.update((task) => task.filter((t) => t.id !== taskId));
-  }
-
-  getTarefas(): Task[] {
-    //simulando chamada API
-    return [
-      { id: 1, title: 'Jogar bola', done: false },
-      { id: 2, title: 'Lavar louça', done: true },
-      { id: 3, title: 'Estudar Angular', done: false },
-    ];
   }
 }
