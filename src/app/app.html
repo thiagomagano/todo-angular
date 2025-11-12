@@ -1,31 +1,8 @@
 <main class="container">
   <h1>Gerencie suas tarefas</h1>
 
-  <fieldset role="checkbox">
-    <legend>TO-DO</legend>
-
-    @for (task of tasks(); track task.id) {
-    <label>
-      <input type="checkbox" [checked]="task.done" (change)="toggleTask(task.id)" />
-      <span> {{task.title}} </span>
-      <button class="delete-button" (click)="removeTask(task.id)" title="Remover tarefa">🗑️</button>
-    </label>
-    } @empty {
-    <p>Não existem tarefas</p>
-    }
-  </fieldset>
-
-  <fieldset role="group">
-    <input
-      type="text"
-      [value]="taskTitle()"
-      (input)="taskTitle.set($any($event.target).value)"
-      (keypress)="onEnter($event)"
-      placeholder="Digite uma nova tarefa..."
-      class="task-input"
-    />
-    <button (click)="addTask()" [disabled]="!taskTitle().trim()">Adicionar</button>
-  </fieldset>
+  <app-task-list />
+  <app-task-form />
 
   <div class="task-counter">
     @if (tasks().length > 0) {
