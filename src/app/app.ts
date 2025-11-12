@@ -16,24 +16,24 @@ interface Task {
 })
 export class App {
   protected readonly pageTitle = signal('todo');
-  tasksService = inject(TaskServices);
+  taskService = inject(TaskServices);
 
   taskTitle = signal('');
   tasksDone = computed(() => this.tasks().filter((t) => t.done === true));
 
-  tasks = signal<Task[]>(this.tasksService.loadTasks());
+  tasks = this.taskService.tasks;
 
   addTask() {
-    const title = this.taskTitle().trim();
+    const text = this.taskTitle().trim();
 
-    if (title) {
-      const newTask: Task = {
-        id: Date.now(),
-        title,
-        done: false,
-      };
-      this.tasks.update((t) => [...t, newTask]);
+    if (!text) return;
+
+    try {
+      this.taskService.createTask(text);
       this.taskTitle.set('');
+    } catch (error) {
+      console.error('Erro ao adicionar tarefa:', error);
+      alert('Erro ao adicionar tarefa. Tente novamente.');
     }
   }
 
@@ -44,11 +44,9 @@ export class App {
   }
 
   toggleTask(task: Task) {
-    this.tasks.update((currentTasks) =>
-      currentTasks.map((t) => (t.id === task.id ? { ...t, done: !t.done } : t)),
-    );
+    //
   }
   removeTask(taskId: number) {
-    this.tasks.update((task) => task.filter((t) => t.id !== taskId));
+    //this.tasks.update((task) => task.filter((t) => t.id !== taskId));
   }
 }
