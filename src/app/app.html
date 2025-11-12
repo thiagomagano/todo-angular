@@ -1,29 +1,34 @@
 <main class="container">
   <h1>Gerencie suas tarefas</h1>
 
-  <div class="grid">
-    <div>
-      <input
-        type="text"
-        [value]="taskTitle()"
-        (input)="taskTitle.set($any($event.target).value)"
-        placeholder="Digite uma nova tarefa..."
-        class="task-input"
-      />
-      <button (click)="adicionarTarefa()" [disabled]="!taskTitle().trim()">Adicionar</button>
-    </div>
+  <fieldset role="checkbox">
+    <legend>TO-DO</legend>
 
-    <fieldset>
-      <legend>TO-DO</legend>
+    @for (task of tasks(); track task.id) {
+    <label>
+      <input type="checkbox" [checked]="task.done" (change)="toggleTask(task)" />
+      <span> {{task.title}} </span>
+    </label>
+    } @empty {
+    <p>Não existem tarefas</p>
+    }
+  </fieldset>
 
-      @for (task of tasks(); track task.id) {
-      <label>
-        <input type="checkbox" name="(item)" />
-        <span> {{task.title}} </span>
-      </label>
-      } @empty {
-      <p>Não existem tarefas</p>
-      }
-    </fieldset>
+  <fieldset role="group">
+    <input
+      type="text"
+      [value]="taskTitle()"
+      (input)="taskTitle.set($any($event.target).value)"
+      (keypress)="onEnter($event)"
+      placeholder="Digite uma nova tarefa..."
+      class="task-input"
+    />
+    <button (click)="adicionarTarefa()" [disabled]="!taskTitle().trim()">Adicionar</button>
+  </fieldset>
+
+  <div class="task-counter">
+    @if (tasks().length > 0) {
+    <span>{{ tasksDone().length }} / {{tasks().length}} Completas</span>
+    }
   </div>
 </main>

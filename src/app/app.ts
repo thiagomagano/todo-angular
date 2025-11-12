@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 interface Task {
@@ -14,8 +14,9 @@ interface Task {
   styleUrl: './app.css',
 })
 export class App {
-  protected readonly title = signal('todo');
+  protected readonly pageTitle = signal('todo');
   taskTitle = signal('');
+  tasksDone = computed(() => this.tasks().filter((t) => t.done === true));
 
   tasks = signal<Task[]>(this.getTarefas());
 
@@ -28,17 +29,29 @@ export class App {
         title,
         done: false,
       };
-      this.tasks.update((t) => (t = [...t, newTask]));
+      this.tasks.update((t) => [...t, newTask]);
       this.taskTitle.set('');
     }
   }
 
+  onEnter(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.adicionarTarefa();
+    }
+  }
+
+  toggleTask(task: Task) {
+    this.tasks.update((currentTasks) =>
+      currentTasks.map((t) => (t.id === task.id ? { ...t, done: !t.done } : t)),
+    );
+  }
+
   getTarefas(): Task[] {
-    //chamada API
+    //simulando chamada API
     return [
       { id: 1, title: 'Jogar bola', done: false },
-      { id: 2, title: 'Lavar louça', done: false },
-      { id: 3, title: 'Estudar Angular', done: false },
+      { id: 2, title: 'Lavar louça', done: true },
+      { id: 3, title: 'Estudar Angular', done: true },
     ];
   }
 }

@@ -13,6 +13,11 @@ span {
   transition: all 0.3s ease;
 }
 
-.grid {
-  gap: 2rem;
+.task-counter {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 0.5px solid #e0e0e0;
+  text-align: center;
+  color: #666;
+  font-size: 0.9rem;
 }
