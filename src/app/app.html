@@ -2,16 +2,21 @@
   <h1>Gerencie suas tarefas</h1>
 
   <form>
-    <input type="text" />
-    <button>Adicionar</button>
+    <input type="text" name="task" [(ngModel)]="task" />
+    <button (click)="adicionarTarefa($event)">Adicionar</button>
   </form>
 
   <fieldset>
     <legend>TO-DO</legend>
+
+    @for (task of tasks(); track $index) {
     <label>
-      <input type="checkbox" name="english" checked />
-      Item
+      <input type="checkbox" name="(item)" [checked]="" />
+      <span> {{task}} </span>
     </label>
+    } @empty {
+    <p>Não existem tarefas</p>
+    }
   </fieldset>
 </main>
 
