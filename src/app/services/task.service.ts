@@ -85,6 +85,23 @@ export class TaskServices {
     return this.updateTask(id, { done: !task.done });
   }
 
+  deleteTask(id: number): boolean {
+    let deleted = false;
+
+    this.tasksSignal.update((tasks) => {
+      const taskExists = tasks.some((task) => task.id === id);
+      if (taskExists) {
+        deleted = true;
+        const updatedTasks = tasks.filter((task) => task.id !== id);
+        this.saveTasks(updatedTasks);
+        return updatedTasks;
+      }
+      return tasks;
+    });
+
+    return deleted;
+  }
+
   getAllTasks(): Task[] {
     return this.tasksSignal();
   }

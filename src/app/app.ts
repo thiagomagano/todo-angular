@@ -53,6 +53,18 @@ export class App {
   }
 
   removeTask(taskId: number) {
-    //this.tasks.update((task) => task.filter((t) => t.id !== taskId));
+    if (!confirm('Deseja realmente remover esta tarefa?')) {
+      return;
+    }
+
+    try {
+      const deleted = this.taskService.deleteTask(taskId);
+      if (!deleted) {
+        alert('Tarefa não encontrada.');
+      }
+    } catch (error) {
+      console.error('Erro ao remover tarefa:', error);
+      alert('Erro ao remover tarefa. Tente novamente.');
+    }
   }
 }
