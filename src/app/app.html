@@ -6,7 +6,7 @@
 
     @for (task of tasks(); track task.id) {
     <label>
-      <input type="checkbox" [checked]="task.done" (change)="toggleTask(task)" />
+      <input type="checkbox" [checked]="task.done" (change)="toggleTask(task.id)" />
       <span> {{task.title}} </span>
       <button class="delete-button" (click)="removeTask(task.id)" title="Remover tarefa">🗑️</button>
     </label>

@@ -56,6 +56,35 @@ export class TaskServices {
     return newTask;
   }
 
+  updateTask(id: number, updates: Partial<Task>): Task | null {
+    let updatedTask: Task | null = null;
+
+    this.tasksSignal.update((tasks) => {
+      const updatedTasks = tasks.map((task) => {
+        if (task.id === id) {
+          updatedTask = { ...task, ...updates };
+          return updatedTask;
+        }
+        return task;
+      });
+
+      if (updatedTask) {
+        this.saveTasks(updatedTasks);
+      }
+
+      return updatedTasks;
+    });
+
+    return updatedTask;
+  }
+
+  toggleTaskComplete(id: number): Task | null {
+    const task = this.tasksSignal().find((t) => t.id === id);
+    if (!task) return null;
+
+    return this.updateTask(id, { done: !task.done });
+  }
+
   getAllTasks(): Task[] {
     return this.tasksSignal();
   }

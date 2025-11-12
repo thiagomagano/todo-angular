@@ -43,9 +43,15 @@ export class App {
     }
   }
 
-  toggleTask(task: Task) {
-    //
+  toggleTask(taskId: number) {
+    try {
+      this.taskService.toggleTaskComplete(taskId);
+    } catch (error) {
+      console.error('Erro ao atualizar tarefa:', error);
+      alert('Erro ao atualizar tarefa. Tente novamente.');
+    }
   }
+
   removeTask(taskId: number) {
     //this.tasks.update((task) => task.filter((t) => t.id !== taskId));
   }
