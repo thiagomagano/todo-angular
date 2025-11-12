@@ -1,28 +1,44 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterOutlet } from '@angular/router';
+
+interface Task {
+  id: number;
+  title: string;
+  done: boolean;
+}
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FormsModule],
+  imports: [FormsModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
   protected readonly title = signal('todo');
-  task = '';
+  taskTitle = signal('');
 
-  //tasks = signal(['Fazer compras', 'Aprender Angular', 'Jogar Bola']);
-  tasks = signal(this.getTarefas());
+  tasks = signal<Task[]>(this.getTarefas());
 
-  adicionarTarefa(event: MouseEvent) {
-    event.preventDefault();
-    //this.tasks.set([...this.tasks(), this.task]);
-    this.tasks.update((t) => (t = [...t, this.task]));
+  adicionarTarefa() {
+    const title = this.taskTitle().trim();
+
+    if (title) {
+      const newTask: Task = {
+        id: Date.now(),
+        title,
+        done: false,
+      };
+      this.tasks.update((t) => (t = [...t, newTask]));
+      this.taskTitle.set('');
+    }
   }
 
-  getTarefas(): string[] {
+  getTarefas(): Task[] {
     //chamada API
-    return ['Jogar Bola', 'Lavar a Louça', 'Aprender Angular'];
+    return [
+      { id: 1, title: 'Jogar bola', done: false },
+      { id: 2, title: 'Lavar louça', done: false },
+      { id: 3, title: 'Estudar Angular', done: false },
+    ];
   }
 }

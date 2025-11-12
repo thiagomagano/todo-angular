@@ -1,0 +1,18 @@
+main {
+  padding-block: 2rem;
+}
+h1 {
+  text-align: center;
+}
+input[type='checkbox']:checked + span {
+  text-decoration: line-through;
+  color: #888;
+  opacity: 0.6;
+}
+span {
+  transition: all 0.3s ease;
+}
+
+.grid {
+  gap: 2rem;
+}

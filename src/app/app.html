@@ -1,23 +1,29 @@
 <main class="container">
   <h1>Gerencie suas tarefas</h1>
 
-  <form>
-    <input type="text" name="task" [(ngModel)]="task" />
-    <button (click)="adicionarTarefa($event)">Adicionar</button>
-  </form>
+  <div class="grid">
+    <div>
+      <input
+        type="text"
+        [value]="taskTitle()"
+        (input)="taskTitle.set($any($event.target).value)"
+        placeholder="Digite uma nova tarefa..."
+        class="task-input"
+      />
+      <button (click)="adicionarTarefa()" [disabled]="!taskTitle().trim()">Adicionar</button>
+    </div>
 
-  <fieldset>
-    <legend>TO-DO</legend>
+    <fieldset>
+      <legend>TO-DO</legend>
 
-    @for (task of tasks(); track $index) {
-    <label>
-      <input type="checkbox" name="(item)" [checked]="" />
-      <span> {{task}} </span>
-    </label>
-    } @empty {
-    <p>Não existem tarefas</p>
-    }
-  </fieldset>
+      @for (task of tasks(); track task.id) {
+      <label>
+        <input type="checkbox" name="(item)" />
+        <span> {{task.title}} </span>
+      </label>
+      } @empty {
+      <p>Não existem tarefas</p>
+      }
+    </fieldset>
+  </div>
 </main>
-
-<router-outlet />
