@@ -8,6 +8,7 @@
     <label>
       <input type="checkbox" [checked]="task.done" (change)="toggleTask(task)" />
       <span> {{task.title}} </span>
+      <button class="delete-button" (click)="removeTask(task.id)" title="Remover tarefa">🗑️</button>
     </label>
     } @empty {
     <p>Não existem tarefas</p>
@@ -23,7 +24,7 @@
       placeholder="Digite uma nova tarefa..."
       class="task-input"
     />
-    <button (click)="adicionarTarefa()" [disabled]="!taskTitle().trim()">Adicionar</button>
+    <button (click)="addTask()" [disabled]="!taskTitle().trim()">Adicionar</button>
   </fieldset>
 
   <div class="task-counter">

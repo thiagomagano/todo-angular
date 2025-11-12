@@ -20,7 +20,7 @@ export class App {
 
   tasks = signal<Task[]>(this.getTarefas());
 
-  adicionarTarefa() {
+  addTask() {
     const title = this.taskTitle().trim();
 
     if (title) {
@@ -36,7 +36,7 @@ export class App {
 
   onEnter(event: KeyboardEvent) {
     if (event.key === 'Enter') {
-      this.adicionarTarefa();
+      this.addTask();
     }
   }
 
@@ -45,13 +45,16 @@ export class App {
       currentTasks.map((t) => (t.id === task.id ? { ...t, done: !t.done } : t)),
     );
   }
+  removeTask(taskId: number) {
+    this.tasks.update((task) => task.filter((t) => t.id !== taskId));
+  }
 
   getTarefas(): Task[] {
     //simulando chamada API
     return [
       { id: 1, title: 'Jogar bola', done: false },
       { id: 2, title: 'Lavar louça', done: true },
-      { id: 3, title: 'Estudar Angular', done: true },
+      { id: 3, title: 'Estudar Angular', done: false },
     ];
   }
 }

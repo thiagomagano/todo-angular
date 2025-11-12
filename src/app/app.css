@@ -21,3 +21,20 @@ span {
   color: #666;
   font-size: 0.9rem;
 }
+
+.delete-button {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  opacity: 0.5;
+}
+
+.delete-button:hover {
+  opacity: 1;
+  background: #ffebee;
+  transform: scale(1.1);
+}
